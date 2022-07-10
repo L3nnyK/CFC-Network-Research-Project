@@ -4,33 +4,33 @@
 
 #Script must be run with sudo to work.
 
-#~ function initialise()
-#~ {
-	#~ #Add in apps as needed, assume nmap, ssh, whois are all not installed.
+function initialise()
+{
+	#Add in apps as needed, assume nmap, ssh, whois are all not installed.
 	
-	#~ apt update && apt install -y nmap ssh whois openssh-client tor sshpass
+	apt update && apt install -y nmap ssh whois openssh-client tor sshpass
 	  
-#~ }
+}
 
-#~ function nipemeup()
-#~ {
-	#~ cd /home/kali
-	#~ echo "Setting current location to:"
-	#~ pwd
+function nipemeup()
+{
+	cd /home/kali
+	echo "Setting current location to:"
+	pwd
 	
-#~ # Download the repository
-	#~ git clone https://github.com/htrgouvea/nipe && cd nipe
+# Download the repository
+	git clone https://github.com/htrgouvea/nipe && cd nipe
 
-#~ # Install libs and dependencies
-	#~ echo "Yes" | cpan install Try::Tiny Config::Simple JSON
+# Install libs and dependencies
+	echo "Yes" | cpan install Try::Tiny Config::Simple JSON
 
- #~ # Install Nipe, must be run as root.
- #~ sudo perl nipe.pl install
+ # Install Nipe, must be run as root.
+ sudo perl nipe.pl install
 	
-#~ }
-#~ echo "Getting your system ready. Please ensure the script is run with sudo permission"
+}
+echo "Getting your system ready. Please ensure the script is run with sudo permission"
  
-#~ initialise && nipemeup
+initialise && nipemeup
 
 ###########################################################################
 
@@ -100,7 +100,7 @@ fi
 #~ scans and whois queries.
 #~ Available tools: sshpass, ssh
 
-#AWS Ubuntu Test Envi ec2-13-250-38-111.ap-southeast-1.compute.amazonaws.com
+#AWS Ubuntu Test Environment ec2-13-250-38-111.ap-southeast-1.compute.amazonaws.com
 #User root
 #Password LkNRTestB0X!
 
