@@ -8,7 +8,7 @@
 #~ {
 	#~ #Add in apps as needed, assume nmap, ssh, whois are all not installed.
 	
-	#~ apt update && apt install -y nmap ssh whois openssh-client tor
+	#~ apt update && apt install -y nmap ssh whois openssh-client tor sshpass
 	  
 #~ }
 
@@ -99,5 +99,15 @@ fi
 #~ Once the connection is anonymous, communicate via SSH and execute nmap
 #~ scans and whois queries.
 #~ Available tools: sshpass, ssh
+
+#AWS Ubuntu Test Envi ec2-13-250-38-111.ap-southeast-1.compute.amazonaws.com
+#User root
+#Password LkNRTestB0X!
+
+echo "You are all set. Connecting you to ec2-13-250-38-111.ap-southeast-1.compute.amazonaws.com"
+
+sshpass -p 'LkNRTestB0X!' ssh root@ec2-13-250-38-111.ap-southeast-1.compute.amazonaws.com 'apt update && apt install -y nmap ssh whois && nmap -oA scanresults -Pn $(curl ipinfo.io/ip)'
+
+
 
 
