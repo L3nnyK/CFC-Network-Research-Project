@@ -4,59 +4,101 @@
 
 #Script must be run with sudo to work.
 
-function initialise()
+#Get initial IP address and country. Setup the variables necessary for later.
+function Originchk()
 {
-	#Add in apps as needed, assume nmap, ssh, whois are all not installed.
+BaseIP=$(curl -s ipinfo.io/ip)
+BaseCountry=$(curl -s ipinfo.io/country)
+echo "Your base IP is $BaseIP, located in $BaseCountry."
+}
+
+Originchk
+
+#~ function initialise()
+#~ {
+	#~ #Add in apps as needed, assume nmap, ssh, whois are all not installed.
 	
-	apt update && apt install -y nmap ssh whois openssh-client tor
+	#~ apt update && apt install -y nmap ssh whois openssh-client tor
 	  
-}
+#~ }
 
-function nipemeup()
-{
-	cd /home/kali
-	echo "Setting current location to:"
-	pwd
+#~ function nipemeup()
+#~ {
+	#~ cd /home/kali
+	#~ echo "Setting current location to:"
+	#~ pwd
 	
-# Download the repository
-	git clone https://github.com/htrgouvea/nipe && cd nipe
+#~ # Download the repository
+	#~ git clone https://github.com/htrgouvea/nipe && cd nipe
 
-# Install libs and dependencies
-	echo "Yes" | cpan install Try::Tiny Config::Simple JSON
+#~ # Install libs and dependencies
+	#~ echo "Yes" | cpan install Try::Tiny Config::Simple JSON
 
- # Install Nipe, must be run as root.
- sudo perl nipe.pl install
+ #~ # Install Nipe, must be run as root.
+ #~ sudo perl nipe.pl install
 	
-}
-echo "Getting your system ready. Please ensure the script is run with sudo permission"
+#~ }
+#~ echo "Getting your system ready. Please ensure the script is run with sudo permission"
  
-initialise && nipemeup
+#~ initialise && nipemeup
 
 #2. Check if the connection is anonymous
 #~ Check if the connection is from your origin country. If no, continue.
 #~ Available tools: curl, whois
 
+
+#Get current IP address and country. Setup the variables.
+function Currentchk()
+{
+CurrentIP=$(curl -s ipinfo.io/ip)
+CurrentCountry=$(curl -s ipinfo.io/country)
+echo "Your current IP is $CurrentIP, located in $CurrentCountry."
+}
+
 #~ function anoncheck()
 #~ {
-	#~ cd /home/leonard/nipe
-	#~ echo "You current location is at:"
-	#~ pwd
+	#~ cd ~/nipe
+	#~ echo "Moving you to the correct directory:";	pwd
 	
 	#~ statuschk=$(sudo perl nipe.pl status | grep -w activated)
 	
 	#~ if [ ! -z "$statuschk" ]
 	#~ then
-		#~ echo "You are anonymous."
+		#~ echo "Nipe is active, you are anonymous."
 	#~ else
-		#~ echo "You are exposed."
+		#~ echo "Nipe is not active, you are exposed."
 	#~ fi
 #~ }
 
-#~ anoncheck
-#~ cd /home/leonard/nipe
-#~ sudo perl nipe.pl start
-#~ anoncheck
+function anoncheck()
+{
+	cd ~/nipe
+	echo "Moving you to the correct directory:";	
+	pwd
+	
+	statuschk=$(sudo perl nipe.pl status | grep -w activated)
+	
+	if [ ! -z "$statuschk" ]
+	then
+		echo "Nipe is active, you are anonymous."
+	else
+		echo "Nipe is not yet active, you are exposed. Starting up Nipe now."
+	fi
+}
 
+Currentchk
+
+if [ "$CurrentCountry" != "$BaseCountry" ];
+then
+echo "You are anonymous."
+else
+echo "You are exposed, but I will take care of it."
+anoncheck
+cd ~/nipe
+sudo perl nipe.pl start
+anoncheck
+sudo perl nipe.pl status
+fi
 
 #~ 3. Connect automatically to the VPS and execute tasks
 #~ Once the connection is anonymous, communicate via SSH and execute nmap
