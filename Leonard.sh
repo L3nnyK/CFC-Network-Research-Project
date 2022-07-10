@@ -4,16 +4,6 @@
 
 #Script must be run with sudo to work.
 
-#Get initial IP address and country. Setup the variables necessary for later.
-function Originchk()
-{
-BaseIP=$(curl -s ipinfo.io/ip)
-BaseCountry=$(curl -s ipinfo.io/country)
-echo "Your base IP is $BaseIP, located in $BaseCountry."
-}
-
-Originchk
-
 #~ function initialise()
 #~ {
 	#~ #Add in apps as needed, assume nmap, ssh, whois are all not installed.
@@ -42,10 +32,27 @@ Originchk
  
 #~ initialise && nipemeup
 
+###########################################################################
+
+#Get initial IP address and country. Setup the variables necessary for later.
+
+# Included this line in case nipe is already running, the if loop will return that country of origins match. So we stop nipe before restarting it."
+cd ~/nipe
+sudo perl nipe.pl stop
+
+function Originchk()
+{
+BaseIP=$(curl -s ipinfo.io/ip)
+BaseCountry=$(curl -s ipinfo.io/country)
+echo "Your base IP is $BaseIP, located in $BaseCountry."
+}
+
+Originchk
+
+
 #2. Check if the connection is anonymous
 #~ Check if the connection is from your origin country. If no, continue.
 #~ Available tools: curl, whois
-
 
 #Get current IP address and country. Setup the variables.
 function Currentchk()
@@ -54,21 +61,6 @@ CurrentIP=$(curl -s ipinfo.io/ip)
 CurrentCountry=$(curl -s ipinfo.io/country)
 echo "Your current IP is $CurrentIP, located in $CurrentCountry."
 }
-
-#~ function anoncheck()
-#~ {
-	#~ cd ~/nipe
-	#~ echo "Moving you to the correct directory:";	pwd
-	
-	#~ statuschk=$(sudo perl nipe.pl status | grep -w activated)
-	
-	#~ if [ ! -z "$statuschk" ]
-	#~ then
-		#~ echo "Nipe is active, you are anonymous."
-	#~ else
-		#~ echo "Nipe is not active, you are exposed."
-	#~ fi
-#~ }
 
 function anoncheck()
 {
@@ -80,9 +72,11 @@ function anoncheck()
 	
 	if [ ! -z "$statuschk" ]
 	then
-		echo "Nipe is active, you are anonymous."
+		echo "Nipe is active."
+		echo
 	else
-		echo "Nipe is not yet active, you are exposed. Starting up Nipe now."
+		echo "Nipe is not yet active, you are exposed. Starting Nipe now."
+		echo
 	fi
 }
 
@@ -93,6 +87,7 @@ then
 echo "You are anonymous."
 else
 echo "You are exposed, but I will take care of it."
+echo
 anoncheck
 cd ~/nipe
 sudo perl nipe.pl start
