@@ -106,7 +106,8 @@ fi
 
 echo "You are all set. Connecting you to ec2-13-250-38-111.ap-southeast-1.compute.amazonaws.com"
 
-sshpass -p 'LkNRTestB0X!' ssh root@ec2-13-250-38-111.ap-southeast-1.compute.amazonaws.com 'apt update && apt install -y nmap ssh whois && nmap -oA scanresults -Pn $(curl ipinfo.io/ip)'
+sshpass -p 'LkNRTestB0X!' ssh root@ec2-13-250-38-111.ap-southeast-1.compute.amazonaws.com 'apt update && apt install -y nmap ssh sshpass whois && nmap -oA scanresults -Pn $(curl ipinfo.io/ip) && whois $(cat scanresults.gnmap | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | uniq)
+'
 
 
 
