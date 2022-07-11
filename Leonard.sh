@@ -117,4 +117,6 @@ sshpass -p 'LkNRTest!B0X' scp root@128.199.179.192:"scanresults.gnmap" ~/ && ssh
 
 #Change directory and show where files have been saved.
 cd ~/
+filestore=$(pwd)
+echo -e "Your files are located here in $filestore. \n Listing them here for you now."
 ls
