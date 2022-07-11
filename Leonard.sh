@@ -8,7 +8,7 @@ function initialise()
 {
 	#Add in apps as needed, assume nmap, ssh, whois are all not installed.
 	
-	sudo apt update && apt install -y nmap ssh whois openssh-client tor sshpass
+	sudo apt update && apt install -y nmap ssh whois openssh-client sshpass tor 
 	  
 }
 
@@ -82,6 +82,10 @@ function anoncheck()
 
 Currentchk
 
+#Silly but its seems nipe needs to be stopped first before it can work.
+cd ~/nipe
+sudo perl nipe.pl stop
+
 if [ "$CurrentCountry" != "$BaseCountry" ];
 then
 echo "You are anonymous."
@@ -111,4 +115,5 @@ sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 '
 #Get the outputs thank you very much.
 echo "Getting you your files, please check ~/ for scanresults.gnmap and whoisresults files."
 sshpass -p 'LkNRTest!B0X' scp -v root@128.199.179.192:"scanresults.gnmap whoisresult" ~/    
+
 
