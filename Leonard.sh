@@ -32,10 +32,10 @@ function nipemeup()
 # Install libs and dependencies
 	echo "Yes" | sudo cpan install Try::Tiny Config::Simple JSON
 
-# Install Nipe, must be run as root.
+#Nipe installation must be run as root.
  sudo perl nipe.pl install
  
-#Silly but its seems nipe needs to be started and stopped first before it can work.
+#Nipe is janky and silly. Its seems nipe needs to be started and stopped first before it can work.
 cd ~/nipe
 sudo perl nipe.pl start
 sudo perl nipe.pl stop
@@ -43,11 +43,12 @@ sudo perl nipe.pl status
 	
 }
 echo "Getting your system ready."
-echo  
-echo "Initialising. Please provide root password when prompted."
+echo -e "Initialising.\n Please provide root password when prompted."
+echo
 initialise
 echo
 echo "Proceeding to get Nipe setup."
+echo
 nipemeup
 
 ###########################################################################
