@@ -8,8 +8,7 @@ function initialise()
 {
 	#Add in apps as needed, assume nmap, ssh, whois are all not installed.
 	
-	sudo apt update && apt install -y nmap ssh whois openssh-client sshpass tor 
-	  
+	sudo apt-get update && apt-get install -y sshpass nmap ssh whois openssh-client tor
 }
 
 function nipemeup()
