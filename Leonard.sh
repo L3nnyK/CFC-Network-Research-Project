@@ -110,10 +110,10 @@ fi
 
 echo "You are all set. Connecting you to 128.199.179.192"
 
-sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 'apt update && apt install -y nmap ssh sshpass whois && nmap -oA scanresults -Pn $(curl ipinfo.io/ip) && whois $(cat scanresults.gnmap | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | uniq)'
+sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 'apt update && apt install -y nmap ssh sshpass whois && nmap -oA scanresults -Pn $(curl -s ipinfo.io/ip) && whois $(cat scanresults.gnmap | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | uniq) >> whoisresults'
 
 #Get the outputs thank you very much.
 echo "Getting you your files, please check ~/ for scanresults.gnmap and whoisresults files."
-sshpass -p 'LkNRTest!B0X' scp -v root@128.199.179.192:"scanresults.gnmap whoisresult" ~/    
+sshpass -p 'LkNRTest!B0X' scp root@128.199.179.192:"scanresults.gnmap whoisresult" ~/    
 
 
