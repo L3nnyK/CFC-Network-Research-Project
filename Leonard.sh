@@ -30,7 +30,7 @@ function nipemeup()
 }
 echo "Getting your system ready."
 echo  
-echo "Initialising"
+echo "Initialising. Please provide root password when prompted."
 initialise
 echo
 echo "Proceeding to get Nipe setup."
