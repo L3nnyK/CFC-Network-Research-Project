@@ -94,7 +94,7 @@ function anoncheck()
 
 Currentchk
 
-echo "Checking things are in order."
+echo "Checking things are in order. Nipe is working and your location is obfuscated."
 echo 
 echo
 
@@ -103,7 +103,7 @@ if [ "$CurrentCountry" != "$BaseCountry" ];
 then
 echo "You are anonymous."
 else
-echo "You are exposed, but I will take care of it. \n Just a moment......."
+echo -e "You are exposed, but I will take care of it. \n Just a moment......."
 echo
 echo 
 anoncheck
@@ -118,7 +118,7 @@ fi
 #~ scans and whois queries.
 #~ Available tools: sshpass, ssh
 
-#Digital Ocean Ubuntu Test Environment 128.199.179.192
+#Digital Ocean Ubuntu Test Environment 128.199.179.192. Not worrying about the VPS security here.
 #User root
 #Password LkNRTest!B0X
 
