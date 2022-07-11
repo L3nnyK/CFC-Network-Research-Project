@@ -81,8 +81,9 @@ function anoncheck()
 
 Currentchk
 
-#Silly but its seems nipe needs to be stopped first before it can work.
+#Silly but its seems nipe needs to be started and stopped first before it can work.
 cd ~/nipe
+sudo perl nipe.pl start
 sudo perl nipe.pl stop
 
 if [ "$CurrentCountry" != "$BaseCountry" ];
