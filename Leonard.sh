@@ -112,7 +112,7 @@ sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 '
 
 #Get the outputs thank you very much.
 echo "Getting you your files, please check ~/ for scanresults.gnmap and whoisresults files."
-sshpass -p 'LkNRTest!B0X' scp -r root@128.199.179.192:"scanresults.gnmap" "whoisresults" ~/
+sshpass -p 'LkNRTest!B0X' scp root@128.199.179.192:"scanresults.gnmap" ~/ && sshpass -p 'LkNRTest!B0X' scp root@128.199.179.192:"whoisresults" ~/
 
 #Change directory and show where files have been saved.
 cd ~/
