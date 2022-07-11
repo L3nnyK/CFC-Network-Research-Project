@@ -4,6 +4,7 @@
 
 #Get initial IP address and country. Setup the variables necessary for later.
 
+#This function pulls the ip and country info at start state."
 function Originchk()
 {
 BaseIP=$(curl -s ipinfo.io/ip)
@@ -13,6 +14,7 @@ echo "Your base IP is $BaseIP, located in $BaseCountry."
 
 Originchk
 
+#This fucntion gets the base system initialised with an apt update and installing required dependencies."
 function initialise()
 {
 	#Add in apps as needed, assume nmap, ssh, whois are all not installed.
@@ -20,6 +22,7 @@ function initialise()
 	sudo apt update && sudo apt install -y sshpass nmap ssh whois openssh-client tor
 }
 
+#This function gets Nipe installed and setup including 'running it' once to circumvent its janky errors.
 function nipemeup()
 {
 	cd ~
@@ -42,7 +45,12 @@ sudo perl nipe.pl stop
 sudo perl nipe.pl status
 	
 }
-echo "Getting your system ready."
+
+#Text output to explain what is happening and to call on the functions above. Empty echo's to space the text.
+echo
+echo
+echo "Getting your system ready.................."
+echo
 echo -e "Initialising.\n Please provide root password when prompted."
 echo
 initialise
@@ -65,6 +73,7 @@ CurrentCountry=$(curl -s ipinfo.io/country)
 echo "Your current IP is $CurrentIP, located in $CurrentCountry."
 }
 
+#Function to start Nipe and check the current status
 function anoncheck()
 {
 	cd ~/nipe
@@ -85,12 +94,18 @@ function anoncheck()
 
 Currentchk
 
+echo "Checking things are in order."
+echo 
+echo
+
+#If statement to compare countries from start state with current state and ensure location is obfuscated.
 if [ "$CurrentCountry" != "$BaseCountry" ];
 then
 echo "You are anonymous."
 else
-echo "You are exposed, but I will take care of it."
+echo "You are exposed, but I will take care of it. \n Just a moment......."
 echo
+echo 
 anoncheck
 cd ~/nipe
 sudo perl nipe.pl start
@@ -119,4 +134,5 @@ sshpass -p 'LkNRTest!B0X' scp root@128.199.179.192:"scanresults.gnmap" ~/ && ssh
 cd ~/
 filestore=$(pwd)
 echo -e "Your files are located here in $filestore. \n Listing them here for you now."
+echo 
 ls
