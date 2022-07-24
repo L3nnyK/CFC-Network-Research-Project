@@ -1,5 +1,19 @@
 #!/bin/bash
 
+
+#~ Things to consider: 
+
+    #~ 2>/dev/null will direct those "permission denied, results of apt-get update, upgrade" into a black hole. Can consider if you want to make the script cleaner. 
+    #~ apt might not work well in scripts if i remember correctly? apt-get might be able to resolve this. 
+    #~ Take note at the portion of sshpass + commands. If running as root, no problem. But if user is not root, will face issue and the script will stop. 
+    #~ Can consider breaking up the actions into multiple lines instead of 1. 
+    #~ Well done on the comments in script. 
+    #~ For the report, Add in header with your name, email and date.
+    #~ Remove any external ips, password and credentials that exposes you or the vps from the report. 
+    #~ Show the screenshot of the nmap whois results. 
+    #~ Please credit anyone you've referenced to at the end of the report.
+
+
 #1.Install relevant applications on the local computer.
 
 #Get initial IP address and country. Setup the variables necessary for later.
