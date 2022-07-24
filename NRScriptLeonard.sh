@@ -19,6 +19,9 @@
 #Get initial IP address and country. Setup the variables necessary for later.
 
 #This function pulls the ip and country info at start state."
+
+##Changed to used apt-get as its better for scripts.
+
 function Originchk()
 {
 BaseIP=$(curl -s ipinfo.io/ip)
@@ -33,7 +36,7 @@ function initialise()
 {
 	#Add in apps as needed, assume nmap, ssh, whois are all not installed.
 	
-	sudo apt update && sudo apt install -y sshpass nmap ssh whois openssh-client tor
+	sudo apt-get update && sudo apt-get install -y sshpass nmap ssh whois openssh-client tor
 }
 
 #This function gets Nipe installed and setup including 'running it' once to circumvent its janky errors.
@@ -138,7 +141,7 @@ fi
 
 echo "You are all set. Connecting you to 128.199.179.192"
 
-sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 'apt update && apt install -y nmap ssh sshpass whois && nmap -oA scanresults -Pn $(curl -s ipinfo.io/ip) && whois $(cat scanresults.gnmap | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | uniq) >> whoisresults'
+sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 'apt-get update && apt-get install -y nmap ssh sshpass whois && nmap -oA scanresults -Pn $(curl -s ipinfo.io/ip) && whois $(cat scanresults.gnmap | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | uniq) >> whoisresults'
 
 #Get the outputs thank you very much.
 echo "Getting you your files, please check ~/ for scanresults.gnmap and whoisresults files."
