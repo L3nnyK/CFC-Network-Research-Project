@@ -139,6 +139,25 @@ fi
 #User root
 #Password LkNRTest!B0X
 
+#Create a menu of options on what to do next. Use case
+
+#echo 'Please select what you would like to do next?'
+#read haxmenu
+#case $haxmenu in
+
+# A)
+
+#;;
+# B)
+
+#;;
+# C)
+
+#;;
+#esac
+
+
+
 echo "You are all set. Connecting you to 128.199.179.192"
 
 sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 'apt-get update && apt-get install -y nmap ssh sshpass whois && nmap -oA scanresults -Pn $(curl -s ipinfo.io/ip) && whois $(cat scanresults.gnmap | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | uniq) >> whoisresults'
