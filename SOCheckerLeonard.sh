@@ -9,7 +9,7 @@ function menu ()
 #echo -e  \n for new line.
 
 echo -e "\nPlease select the appropriate action by entering the corresponding number followed by ENTER."
-echo -e "\n1) To setup and initialise the system. \n2) To conduct system scans or attacks. \n3) View/Access the log files. \n \n0) To quit."
+echo -e "\n1) To setup and initialise the system. \n2) To conduct system scans or attacks. \n3) View/Access the log files. \n \n0) To quit.\n"
 read CHOICE1
 echo -e "\nYou chose option $CHOICE1.\n"
 case $CHOICE1 in
@@ -58,7 +58,7 @@ function  chkme()
 #allow the user to choose different scans and attacks
 {
 echo -e "\nPlease select the process you would like to start."
-echo -e "\n1) Conduct an nmap scan. \n2) Conduct a masscan. \n3) Conduct an attack 1. \n4) Conduct an attack 2 \n0) To quit."
+echo -e "\n1) Conduct an nmap scan. \n2) Conduct a masscan. \n3) Conduct an attack 1. \n4) Conduct an attack 2 \n0) To quit.\n"
 read CHOICE2
 echo -e "\nYou chose option $CHOICE2.\n"
 case $CHOICE2 in
