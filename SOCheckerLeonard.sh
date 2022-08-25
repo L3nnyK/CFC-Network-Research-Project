@@ -8,10 +8,10 @@ function menu ()
 	#Initial selection menu.
 #echo -e  \n for new line.
 
-echo -e "\nPlease select the appropriate action by entering the corresponding number."
+echo -e "\nPlease select the appropriate action by entering the corresponding number followed by ENTER."
 echo -e "\n1) To setup and initialise the system. \n2) To conduct system scans or attacks. \n3) View/Access the log files. \n \n0) To quit."
 read CHOICE1
-echo -e "\nYou chose $CHOICE1.\n"
+echo -e "\nYou chose option $CHOICE1.\n"
 case $CHOICE1 in
 
 	1)
@@ -60,37 +60,53 @@ function  chkme()
 echo -e "\nPlease select the process you would like to start."
 echo -e "\n1) Conduct an nmap scan. \n2) Conduct a masscan. \n3) Conduct an attack 1. \n4) Conduct an attack 2 \n0) To quit."
 read CHOICE2
-echo -e "\nYou chose $CHOICE2.\n"
+echo -e "\nYou chose option $CHOICE2.\n"
 case $CHOICE2 in
 
 	1)
-		echo "Conducting an nmap scan. Please provide the requested inputs."
+		echo -e "Conducting an nmap scan. Please provide the requested inputs.\n "
 		
-		read -p "Please provide a target IP or hostname.:" targetip
+		read -p "Please provide a target IP(s) or hostname(s) for nmap. (e.g Can be a specific ip or range, for example 192.168.1.1 or 192.168.1.0/24):" nmaptgtIP
 		
-		echo "You have entered $targetip as the target ip."
+		echo "You have entered $nmaptgtIP as the target ip or ip range for nmap."
+		
+		read -p "Please provide the target port(s) for nmap. (e.g Can be a specific port or port range, 80 or 100 -8080):" nmaptgtport
+		
+		echo -e "\nYou have entered $nmaptgtport as the target port or port range for nmap. \n Executing nmap scan......."
 		
 		#Run nmap scan ans save the output to a file
-		sudo nmap -v -O -A "$targetip" -oN nmapscan
+		sudo nmap -v -p "$nmaptgtport" -O "$nmaptgtIP" -oN nmapscan_output
 		
-	;;
+		;;
 
 	2)
-		echo "Conducting a masscan."
-	;;
+		echo -e "Conducting a masscan. Please provide the requested inputs.\n"
+		
+		read -p "Please provide a target IP(s) or hostname(s) for masscan. (e.g Can be a specific ip or range, for example 192.168.1.1 or 192.168.1.0/24):" mstgtIP
+		
+		echo -e "\nYou have entered $mstgtIP as the target ip or ip range for masscan.\n"
+		
+		read -p "Please provide the target port(s) for masscan. (e.g Can be a specific port, ports or port range, 80, 22,53,80,443 or 100-8080):" mstgtport
+		
+		echo -e "\nYou have entered $mstgtport as the target port or port range for masscan.\n \nExecuting masscan........"
+		
+		#Executed the masscan.
+		sudo masscan "$mstgtIP" -p "$mstgtport" > masscan_output
+		
+		;;
 
 	3)	echo "Conducting an attack 1"
-	;;
+		;;
 	
 	4)	echo "Conducting an attack 2"
-	;;
+		;;
 
 	0)	echo "Quit" 
-	exit
-	;;
+				exit
+		;;
 	
 	*)  echo "Invalid option!"
-	;;
+		;;
 	esac
 }
 
