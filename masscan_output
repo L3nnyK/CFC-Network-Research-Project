@@ -1,2 +1,1 @@
-Discovered open port 53/tcp on 192.168.1.1                                     
-Discovered open port 80/tcp on 192.168.1.1                                     
+Discovered open port 53/tcp on 10.0.0.1                                        
