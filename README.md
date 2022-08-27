@@ -1,3 +1,5 @@
+A gathering of files, scripts and project work for CFC.
+
 # CFC-Network-Research-Project
 CFC Network Research Project
 
