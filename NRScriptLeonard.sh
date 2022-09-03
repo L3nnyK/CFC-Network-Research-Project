@@ -1,27 +1,10 @@
 #!/bin/bash
 
-
-#~ Things to consider: 
-
-    #~ 2>/dev/null will direct those "permission denied, results of apt-get update, upgrade" into a black hole. Can consider if you want to make the script cleaner. 
-    #~ apt might not work well in scripts if i remember correctly? apt-get might be able to resolve this. 
-    #~ Take note at the portion of sshpass + commands. If running as root, no problem. But if user is not root, will face issue and the script will stop. 
-    #~ Can consider breaking up the actions into multiple lines instead of 1. 
-    #~ Well done on the comments in script. 
-    #~ For the report, Add in header with your name, email and date.
-    #~ Remove any external ips, password and credentials that exposes you or the vps from the report. 
-    #~ Show the screenshot of the nmap whois results. 
-    #~ Please credit anyone you've referenced to at the end of the report.
-
-
 #1.Install relevant applications on the local computer.
 
 #Get initial IP address and country. Setup the variables necessary for later.
 
 #This function pulls the ip and country info at start state."
-
-##Changed to used apt-get as its better for scripts.
-
 function Originchk()
 {
 BaseIP=$(curl -s ipinfo.io/ip)
@@ -36,7 +19,7 @@ function initialise()
 {
 	#Add in apps as needed, assume nmap, ssh, whois are all not installed.
 	
-	sudo apt-get update && sudo apt-get install -y sshpass nmap ssh whois openssh-client tor
+	sudo apt update && sudo apt install -y sshpass nmap ssh whois openssh-client tor
 }
 
 #This function gets Nipe installed and setup including 'running it' once to circumvent its janky errors.
@@ -139,28 +122,9 @@ fi
 #User root
 #Password LkNRTest!B0X
 
-#Create a menu of options on what to do next. Use case
-
-#echo 'Please select what you would like to do next?'
-#read haxmenu
-#case $haxmenu in
-
-# A)
-
-#;;
-# B)
-
-#;;
-# C)
-
-#;;
-#esac
-
-
-
 echo "You are all set. Connecting you to 128.199.179.192"
 
-sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 'apt-get update && apt-get install -y nmap ssh sshpass whois && nmap -oA scanresults -Pn $(curl -s ipinfo.io/ip) && whois $(cat scanresults.gnmap | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | uniq) >> whoisresults'
+sshpass -p 'LkNRTest!B0X' ssh -o StrictHostKeyChecking=no root@128.199.179.192 'apt update && apt install -y nmap ssh sshpass whois && nmap -oA scanresults -Pn $(curl -s ipinfo.io/ip) && whois $(cat scanresults.gnmap | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | uniq) >> whoisresults'
 
 #Get the outputs thank you very much.
 echo "Getting you your files, please check ~/ for scanresults.gnmap and whoisresults files."
