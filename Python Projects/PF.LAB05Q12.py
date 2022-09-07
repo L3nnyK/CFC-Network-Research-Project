@@ -24,7 +24,7 @@ for val in result:
 print("Total is : " + str(sum))
 
 nummer=len(result)
-print("Number of of studnets :" + str(nummer))
+print("Number of of students :" + str(nummer))
 
 Average=sum/nummer
 
